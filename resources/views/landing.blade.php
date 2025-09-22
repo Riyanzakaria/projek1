@@ -28,6 +28,9 @@
     <div class="container">
         <h1>Selamat Datang di Web Pertama Saya</h1>
         <p>Ini adalah halaman selamat datang yang dibuat dengan controller dan view di Laravel.</p>
+        <p>Nama : Riyan Zakaria Zulkarnain
+            NIM : 244311058
+        </p>
     </div>
 </body>
 </html>
