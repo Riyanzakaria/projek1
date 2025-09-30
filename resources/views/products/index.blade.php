@@ -1,37 +1,45 @@
-{{-- resources/views/products/index.blade.php --}}
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Produk</title>
-    <style>
-        body { font-family: sans-serif; }
-        table { width: 80%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Daftar Produk</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Nama</th>
-                <th>Harga</th>
-                <th>Deskripsi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($products as $product)
-            <tr>
-                <td>{{ $product->nama }}</td>
-                <td>{{ number_format($product->harga, 0, ',', '.') }}</td>
-                <td>{{ $product->deskripsi }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+<div class="container mt-5">
+    <h2>Daftar Produk</h2>
+    <a href="{{ route('products.create') }}" class="btn btn-success mb-3">Tambah Produk Baru</a>
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
+    <table class="table table-bordered">
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th width="280px">Aksi</th>
+        </tr>
+        @foreach ($products as $product)
+        <tr>
+    <td>{{ $products->firstItem() + $loop->index }}</td>
+            <td>{{ $product->name }}</td>
+            <td>Rp {{ number_format($product->price, 2) }}</td>
+            <td>
+                <form action="{{ route('products.destroy',$product->id) }}" method="POST">
+                    <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Lihat</a>
+                    <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Ubah</a>
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
     </table>
+    {!! $products->links() !!}
+</div>
 </body>
 </html>
